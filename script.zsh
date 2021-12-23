@@ -1,12 +1,12 @@
 _=${1:?Subcommand must be specified}
 FILE_NAME=${2:?The secret must be specified}
 SECRET_NAME=$FILE_NAME:t
-RECEPIENT=${RECEPIENT:?GPG recepient must be specified through RECEPIENT env var}
+ZSH_SECRETS_RECIPIENT=${ZSH_SECRETS_RECIPIENT:?GPG recepient must be specified through ZSH_SECRETS_RECIPIENT env var}
 
 DEFAULT_SECRETS_STORAGE="$HOME/.secrets"
 
-SECRETS_STORAGE=${SECRETS_STORAGE:-$DEFAULT_SECRETS_STORAGE}
-SECRET_FILENAME="$SECRETS_STORAGE/$SECRET_NAME.gpg"
+ZSH_SECRETS_STORAGE=${ZSH_SECRETS_STORAGE:-$DEFAULT_SECRETS_STORAGE}
+SECRET_FILENAME="$ZSH_SECRETS_STORAGE/$SECRET_NAME.gpg"
 
 function realpath {
     echo $(cd $(dirname $1); pwd)/$(basename $1);
@@ -28,7 +28,7 @@ function _decrypt {
 function _encrypt {
     echo "Encrypting $SECRET_NAME as $SECRET_FILENAME"
     local file=$(realpath $FILE_NAME)
-    gpg --batch --yes --output $SECRET_FILENAME --encrypt --recipient $RECEPIENT $file
+    gpg --batch --yes --output $SECRET_FILENAME --encrypt --recipient $ZSH_SECRETS_RECIPIENT $file
     echo "Removing $file"
     rm $file
 }
