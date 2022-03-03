@@ -13,7 +13,7 @@ function realpath {
 }
 
 function decrypt_to_out {
-    gpg --decrypt $SECRET_FILENAME
+    gpg -q --decrypt $SECRET_FILENAME
 }
 
 function _source_secrets {
